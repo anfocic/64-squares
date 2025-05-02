@@ -1,51 +1,95 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ActivityIndicator} from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import { refreshToken as apiRefreshToken, logout as apiLogout } from "@/services/authService";
 
 type AuthContextType = {
     isAuthenticated: boolean;
-    login: () => void;
-    logout: () => void;
+    accessToken: string | null;
+    login: (accessToken: string, refreshToken: string) => Promise<void>;
+    logout: () => Promise<void>;
+    refreshToken: () => Promise<void>;
     loadingAuthState: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    const [accessToken, setAccessToken] = useState<string | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loadingAuthState, setLoadingAuthState] = useState(true); // <-- New state
+    const [loadingAuthState, setLoadingAuthState] = useState(true);
 
-    useEffect(() => {
-        // Check token on app startup
-        const checkAuth = async () => {
-            try {
-                const token = await AsyncStorage.getItem('token');
-                if (token) {
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-                console.error("Failed to load auth token", error);
-            } finally {
-                setLoadingAuthState(false); // <-- Important: stop loading
+    const checkStoredToken = useCallback(async () => {
+        try {
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            if (refreshToken) {
+                const newTokens = await apiRefreshToken(refreshToken);
+                setAccessToken(newTokens.accessToken);
+                await AsyncStorage.setItem("refresh_token", newTokens.refreshToken);
+                setIsAuthenticated(true);
             }
-        };
-
-        checkAuth();
+        } catch (err) {
+            console.error("Token refresh failed", err);
+            await logout(); // invalidate everything if refresh fails
+        } finally {
+            setLoadingAuthState(false);
+        }
     }, []);
 
-    const login = () => setIsAuthenticated(true);
+    useEffect(() => {
+        checkStoredToken();
+    }, [checkStoredToken]);
+
+    const login = async (accessToken: string, refreshToken: string) => {
+        await AsyncStorage.setItem("refresh_token", refreshToken);
+        setAccessToken(accessToken);
+        console.log('accesss token',accessToken);
+        setIsAuthenticated(true);
+    };
 
     const logout = async () => {
-        await AsyncStorage.removeItem('token');
-        setIsAuthenticated(false);
+        try {
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            if (refreshToken) {
+                await apiLogout(refreshToken);
+            }
+        } catch (err) {
+            console.warn("Logout request failed", err);
+        } finally {
+            await AsyncStorage.removeItem("refresh_token");
+            setAccessToken(null);
+            setIsAuthenticated(false);
+        }
+    };
+
+    const refreshToken = async () => {
+        const refreshToken = await AsyncStorage.getItem("refresh_token");
+        if (!refreshToken) throw new Error("No refresh token available");
+
+        const newTokens = await apiRefreshToken(refreshToken);
+        setAccessToken(newTokens.accessToken);
+        await AsyncStorage.setItem("refresh_token", newTokens.refreshToken);
     };
 
     if (loadingAuthState) {
-        return <ActivityIndicator size="large" />;
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated,loadingAuthState, login, logout }}>
+        <AuthContext.Provider
+            value={{
+                isAuthenticated,
+                accessToken,
+                login,
+                logout,
+                refreshToken,
+                loadingAuthState,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

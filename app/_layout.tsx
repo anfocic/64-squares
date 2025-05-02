@@ -1,6 +1,8 @@
 import { Stack } from 'expo-router';
 import {AuthProvider, useAuth} from "@/context/AuthContext";
 import React from "react";
+import {QueryClientProvider} from "@tanstack/react-query";
+import {queryClient} from "@/lib/react-query";
 
 function RootLayoutNav() {
     const { isAuthenticated } = useAuth();
@@ -19,7 +21,9 @@ function RootLayoutNav() {
 export default function RootLayout() {
     return (
         <AuthProvider>
-            <RootLayoutNav />
+            <QueryClientProvider client={queryClient}>
+                <RootLayoutNav />
+            </QueryClientProvider>
         </AuthProvider>
     );
 }

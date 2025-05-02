@@ -1,7 +1,7 @@
 import {useState} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuth} from "@/context/AuthContext";
-import {login as loginRequest} from "@/services/authService.ts";
+import {login as loginRequest} from "@/services/authService";
 import {useRouter} from "expo-router";
 
 export function useLogin() {
@@ -17,19 +17,12 @@ export function useLogin() {
         try {
             const response = await loginRequest({email, password});
 
-            console.log("Login response", response);
-
-            // Assuming your backend responds like { token: "..." }
             if (response?.token) {
-                // Save token to AsyncStorage
                 await AsyncStorage.setItem('token', response.token);
-
-                // You can optionally store user info too if you want (future)
-                // await AsyncStorage.setItem('user', JSON.stringify(response.user));
             }
 
-            loginContext(); // Update auth context (you can pass response if needed)
-            router.replace("/home");
+            loginContext(response.token, response.refreshToken); // Update auth context (you can pass response if needed)
+            router.replace("/(tabs)/home");
         } catch (err: any) {
             console.error("Login error:", err);
             setError(err.message || "Something went wrong");
