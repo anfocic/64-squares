@@ -1,59 +1,52 @@
-import { View, Text, TextInput, Button, Alert } from "react-native";
-import React, { useState } from "react";
-import { router } from "expo-router";
-import { useCreateLeague } from "@/hooks/useCreateLeague";
-import {useAuth} from "@/context/AuthContext"; // adjust path
+import React, {useCallback} from "react";
+import {Alert} from "react-native";
+import {useForm} from "react-hook-form";
+import {yupResolver} from '@hookform/resolvers/yup';
+import {useCreateLeague} from "@/hooks/useCreateLeague";
+import {useAuth} from "@/context/AuthContext";
+import LeagueForm from "@/components/LeagueForm";
+import {defaultLeagueValues, leagueSchema} from "@/constants/league";
+import {LeagueFormFields} from "@/types/league";
 
 export default function CreateLeagueScreen() {
-    const [name, setName] = useState("");
-    const { mutateAsync, isPending } = useCreateLeague();
-    const { accessToken } = useAuth(); // optional, depending on how you handle auth
-    console.log(accessToken)
-    const handleCreateLeague = async () => {
-        if (!name.trim()) {
-            return Alert.alert("Error", "League name is required.");
-        }
+    const {accessToken} = useAuth();
+    const {control, handleSubmit, formState: {isSubmitting}} = useForm<LeagueFormFields>({
+        defaultValues: defaultLeagueValues,
+        resolver: yupResolver(leagueSchema),
+    });
 
-        if (!accessToken) {
-            return Alert.alert("Error", "You must be logged in to create a league.");
-        }
+    const {createLeagueAsync, isLoading} = useCreateLeague();
 
+    const onSubmit = useCallback(async (data: LeagueFormFields) => {
         try {
-            await mutateAsync({
-                data: { name },
-                token: accessToken,
+            await createLeagueAsync({
+                token: accessToken as string,
+                data: {
+                    name: data.name as string,
+                    settings: {
+                        format: data.format,
+                        rounds: data.rounds,
+                        base_minutes: data.base_minutes,
+                        increment_seconds: data.increment_seconds,
+                        games_per_pairing: data.games_per_pairing,
+                        allow_draws: data.allow_draws,
+                        auto_pairing: data.auto_pairing,
+                        start_date: data.start_date.toISOString().split("T")[0],
+                    },
+                },
             });
-
             Alert.alert("Success", "League created!");
-            router.back();
         } catch (err) {
             console.error("Failed to create league", err);
             Alert.alert("Error", "Failed to create league.");
         }
-    };
+    }, [createLeagueAsync, accessToken]);
 
     return (
-        <View style={{ flex: 1, padding: 16 }}>
-            <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}>
-                Create a New League
-            </Text>
-            <TextInput
-                style={{
-                    borderWidth: 1,
-                    borderColor: "#ccc",
-                    padding: 12,
-                    marginBottom: 20,
-                    borderRadius: 6,
-                }}
-                placeholder="League name"
-                value={name}
-                onChangeText={setName}
-            />
-            <Button
-                title={isPending ? "Creating..." : "Create League"}
-                onPress={handleCreateLeague}
-                disabled={isPending}
-            />
-        </View>
+        <LeagueForm control={control}
+                    isSubmitting={isSubmitting || isLoading}
+                    handleSubmit={handleSubmit}
+                    onSubmit={onSubmit}
+        />
     );
 }

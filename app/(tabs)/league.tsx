@@ -1,15 +1,10 @@
-import { View, Text, FlatList, Button } from "react-native";
-import React, { useState } from "react";
-import { router } from "expo-router";
-
-const mockLeagues = [
-    { id: "1", name: "Winter Chess League" },
-    { id: "2", name: "Rapid Fire League" },
-    { id: "3", name: "Weekly Blitz" },
-];
+import {Button, FlatList, Text, View} from "react-native";
+import React from "react";
+import {router} from "expo-router";
+import {useLeagues} from "@/hooks/useGetLeagues";
 
 export default function LeagueScreen() {
-    const [leagues, setLeagues] = useState(mockLeagues);
+    const { data: leagues } = useLeagues();
 
     return (
         <View style={{ flex: 1, padding: 16 }}>

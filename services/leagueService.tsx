@@ -1,7 +1,7 @@
 import { request } from "@/utils/authUtils";
 import { League, NewLeague } from "@/types/league";
 
-export async function createLeague(data: NewLeague, token?: string) {
+export async function createLeague(data: NewLeague, token: string) {
     return request("/leagues", {
         method: "POST",
         body: JSON.stringify(data),
@@ -12,6 +12,12 @@ export async function getLeague(id: string, token?: string): Promise<League> {
     return request(`/leagues/${id}`, {
         method: "GET",
     }, true, token);
+}
+
+export async function getAllLeagues(): Promise<League[]> {
+    return request(`/leagues/list`, {
+        method: "GET",
+    }, true);
 }
 
 // Future functions can include:

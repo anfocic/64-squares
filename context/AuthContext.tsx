@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
         } catch (err) {
             console.error("Token refresh failed", err);
-            await logout(); // invalidate everything if refresh fails
+            await logout();
         } finally {
             setLoadingAuthState(false);
         }
@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const login = async (accessToken: string, refreshToken: string) => {
         await AsyncStorage.setItem("refresh_token", refreshToken);
         setAccessToken(accessToken);
-        console.log('accesss token',accessToken);
         setIsAuthenticated(true);
     };
 
