@@ -21,6 +21,7 @@ export default function LeagueScreen() {
             />
 
             <Button title="Create New League" onPress={() => router.push("/league/create")} />
+            <Button title="Join League" onPress={() => router.push("/league/create")} />
         </View>
     );
 }
