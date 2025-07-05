@@ -1,9 +1,23 @@
 # 64 Squares ♟️
 
+**A modern, cross-platform chess application for tournaments, leagues, and competitive play.**
+
 > **⚠️ Early Development Notice**
 > This project is currently in early development. Features are being actively built and the codebase is evolving rapidly. Expect breaking changes and incomplete functionality.
 
-A modern, cross-platform chess application built with React Native and Expo. Play chess, join tournaments, and compete in leagues across iOS, Android, and Web.
+Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and Web with real-time multiplayer, tournament management, and league systems. Perfect for chess clubs, schools, and competitive players.
+
+## 🌟 Upcoming Open Source Release
+
+64 Squares is being developed as a **fully open source** chess platform! We're building this for the chess community, by the chess community. Once the core features are stable, we'll be actively seeking contributors to help expand the platform with:
+
+- 🎯 **Community-driven features** - Your ideas shape the roadmap
+- 🌍 **Global accessibility** - Multi-language support and inclusive design
+- 🔧 **Plugin architecture** - Extend functionality with custom modules
+- 📚 **Educational tools** - Built-in tutorials and training features
+- 🏆 **Tournament variety** - Swiss, Round-robin, Knockout, and custom formats
+
+**Join the movement** to create the most comprehensive open source chess platform! Star ⭐ the repository to stay updated on our progress toward the public release.
 
 ## 🚧 Development Status
 
