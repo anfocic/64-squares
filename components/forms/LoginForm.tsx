@@ -23,7 +23,7 @@ export function LoginForm({ onLogin, loading, error }: Props) {const [email, set
                 {/* Logo */}
                 <View style={styles.logoContainer}>
                     {/*<Image source={require("@/assets/chess-logo.png")} style={styles.logoImage} />*/}
-                    <Text style={styles.logoText}>Knightly Feud</Text>
+                    <Text style={styles.logoText}>64 Squares</Text>
                 </View>
 
                 {/* Inputs */}

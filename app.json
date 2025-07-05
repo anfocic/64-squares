@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "chess",
-    "slug": "chess",
+    "name": "64 Squares",
+    "slug": "64-squares",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "myapp",
@@ -9,13 +9,13 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.chess"
+      "bundleIdentifier": "com.anonymous.64squares"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.chess"
+      "package": "com.anonymous.64squares"
     },
     "web": {
       "bundler": "metro",

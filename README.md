@@ -1,50 +1,163 @@
-# Welcome to your Expo app 👋
+# 64 Squares ♟️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **⚠️ Early Development Notice**
+> This project is currently in early development. Features are being actively built and the codebase is evolving rapidly. Expect breaking changes and incomplete functionality.
 
-## Get started
+A modern, cross-platform chess application built with React Native and Expo. Play chess, join tournaments, and compete in leagues across iOS, Android, and Web.
 
-1. Install dependencies
+## 🚧 Development Status
 
+**Current Phase:** Core Architecture & Game Logic
+**Version:** 1.0.0-alpha
+**Last Updated:** January 2025
+
+### ✅ Completed Features
+- [x] Cross-platform chess board (iOS, Android, Web)
+- [x] Chess game logic with Chess.js integration
+- [x] User authentication system
+- [x] Game state management with React Context
+- [x] Basic UI components and forms
+- [x] Move validation and game status tracking
+
+### 🚧 In Progress
+- [ ] Real-time multiplayer functionality
+- [ ] League and tournament system
+- [ ] Game persistence and history
+- [ ] Player profiles and ratings
+- [ ] Push notifications
+
+### 📋 Planned Features
+- [ ] Online matchmaking
+- [ ] Chess puzzles and training
+- [ ] Game analysis and replay
+- [ ] Social features and chat
+- [ ] Mobile app store deployment
+
+## 🛠️ Tech Stack
+
+- **Framework:** React Native with Expo
+- **Language:** TypeScript
+- **Chess Engine:** Chess.js
+- **State Management:** React Context + React Query
+- **UI Components:** React Native + Custom Components
+- **Forms:** React Hook Form + Yup validation
+- **Navigation:** Expo Router
+- **Platforms:** iOS, Android, Web
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Expo CLI
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/anfocic/64-squares.git
+   cd 64-squares
+   ```
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Start the development server**
    ```bash
-    npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run on your preferred platform**
+   - **Web:** Press `w` in the terminal or visit `http://localhost:8081`
+   - **iOS:** Press `i` (requires Xcode)
+   - **Android:** Press `a` (requires Android Studio)
+   - **Mobile:** Scan QR code with Expo Go app
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📱 Platform Support
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| Platform | Status | Notes |
+|----------|--------|-------|
+| 🌐 Web | ✅ Working | Primary development platform |
+| 📱 iOS | 🚧 Testing | Requires iOS simulator or device |
+| 🤖 Android | 🚧 Testing | Requires Android emulator or device |
 
-## Get a fresh project
+## 🏗️ Project Structure
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+64-squares/
+├── app/                    # Expo Router pages
+│   ├── (tabs)/            # Tab navigation screens
+│   ├── auth/              # Authentication screens
+│   └── league/            # League management
+├── components/            # Reusable UI components
+│   ├── atoms/             # Basic form inputs
+│   ├── board/             # Chess board components
+│   ├── forms/             # Form components
+│   └── game/              # Game-specific components
+├── context/               # React Context providers
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utilities and types
+│   ├── game/              # Chess game logic
+│   ├── types/             # TypeScript definitions
+│   └── utils/             # Helper functions
+└── services/              # API and external services
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🤝 Contributing
 
-## Learn more
+We welcome contributions! Since this is in early development, please:
 
-To learn more about developing your project with Expo, look at the following resources:
+1. **Check existing issues** before starting work
+2. **Open an issue** to discuss major changes
+3. **Fork the repository** and create a feature branch
+4. **Follow the existing code style** (TypeScript + ESLint)
+5. **Test your changes** on multiple platforms if possible
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Development Guidelines
+- Use TypeScript for all new code
+- Follow React Native best practices
+- Write meaningful commit messages
+- Update documentation for new features
 
-## Join the community
+## 📄 License
 
-Join our community of developers creating universal apps.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🎯 Roadmap
+
+### Phase 1: Core Game (Current)
+- ✅ Basic chess gameplay
+- 🚧 User authentication
+- 🚧 Game state management
+
+### Phase 2: Multiplayer
+- Real-time game synchronization
+- Matchmaking system
+- Game invitations
+
+### Phase 3: Tournaments & Leagues
+- Tournament creation and management
+- League systems with ratings
+- Leaderboards and statistics
+
+### Phase 4: Advanced Features
+- Chess puzzles and training
+- Game analysis tools
+- Social features
+
+## 📞 Contact & Support
+
+- **Issues:** [GitHub Issues](https://github.com/yourusername/64-squares/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/yourusername/64-squares/discussions)
+
+## ⭐ Show Your Support
+
+If you like this project, please consider:
+- ⭐ Starring the repository
+- 🐛 Reporting bugs
+- 💡 Suggesting new features
+- 🤝 Contributing code
+
+---
