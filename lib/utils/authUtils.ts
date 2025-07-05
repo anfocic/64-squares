@@ -10,7 +10,6 @@ export async function request(
         "Content-Type": "application/json",
         ...options.headers,
     };
-    console.log('token', token);
     if (authorized && token) {
         headers["Authorization"] = `Bearer ${token}`;
     }

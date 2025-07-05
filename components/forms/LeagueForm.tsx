@@ -3,7 +3,7 @@ import {Button, Text, View} from "react-native";
 import TextInput from "@/components/atoms/TextInput";
 import SwitchInput from "@/components/atoms/SwitchInput";
 import {FieldValues} from "react-hook-form";
-import type {FormProps} from "@/types/props";
+import {FormProps} from "@/lib/types/props";
 
 export default function LeagueForm<T extends FieldValues>({control, onSubmit, handleSubmit, isSubmitting}: FormProps<T>) {
     return (

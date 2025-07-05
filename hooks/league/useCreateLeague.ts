@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { createLeague } from '@/services/leagueService';
-import type { NewLeague } from '@/types/league';
+import {NewLeague} from "@/lib/types/league";
 
 export function useCreateLeague() {
     const mutation = useMutation({

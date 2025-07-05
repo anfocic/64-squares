@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import {LeagueFormFields} from "@/types/league";
+import {LeagueFormFields} from "@/lib/types/league";
 
 export const defaultLeagueValues: LeagueFormFields = {
     name: "",

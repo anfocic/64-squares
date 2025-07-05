@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Picker } from "@react-native-picker/picker"; // install: npm install @react-native-picker/picker
+import { Picker } from "@react-native-picker/picker";
 import { Controller } from "react-hook-form";
 
 export default function SelectInput({ control, name, placeholder, options }) {

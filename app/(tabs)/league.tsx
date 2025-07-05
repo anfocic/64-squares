@@ -1,7 +1,7 @@
 import {Button, FlatList, Text, View} from "react-native";
 import React from "react";
 import {router} from "expo-router";
-import {useLeagues} from "@/hooks/useGetLeagues";
+import {useLeagues} from "@/hooks/league/useGetLeagues";
 
 export default function LeagueScreen() {
     const { data: leagues } = useLeagues();

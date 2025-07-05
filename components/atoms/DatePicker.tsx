@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {View, Text, Button, Platform} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {Controller} from "react-hook-form";
-import type {InputProps} from "@/types/props";
+import {InputProps} from "@/lib/types/props";
 
 
 export default function DatePickerInput<T extends Record<string, any>>({control, name, placeholder,}: InputProps<T>) {

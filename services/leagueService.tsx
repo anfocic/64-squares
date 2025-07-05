@@ -1,5 +1,5 @@
-import { request } from "@/utils/authUtils";
-import { League, NewLeague } from "@/types/league";
+import {League, NewLeague} from "@/lib/types/league";
+import {request} from "@/lib/utils/authUtils";
 
 export async function createLeague(data: NewLeague, token: string) {
     return request("/leagues", {

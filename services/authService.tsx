@@ -1,4 +1,4 @@
-import {request} from "@/utils/authUtils";
+import {request} from "@/lib/utils/authUtils";
 
 type LoginRequest = {
     email: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import {useLogin} from "@/hooks/useLogin";
-import {LoginForm} from "@/components/LoginForm";
+import {useLogin} from "@/hooks/auth/useLogin";
+import {LoginForm} from "@/components/forms/LoginForm";
 
 const Login = () => {
     const { handleLogin, loading, error } = useLogin();

@@ -1,7 +1,7 @@
 import React from "react";
 import {View, Text, Switch} from "react-native";
 import {Controller, FieldValues} from "react-hook-form";
-import type {InputProps} from "@/types/props";
+import {InputProps} from "@/lib/types/props";
 
 function SwitchInput<T extends FieldValues>({control, name, placeholder}: InputProps<T>) {
     return (

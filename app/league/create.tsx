@@ -2,11 +2,11 @@ import React, {useCallback} from "react";
 import {Alert} from "react-native";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
-import {useCreateLeague} from "@/hooks/useCreateLeague";
 import {useAuth} from "@/context/AuthContext";
-import LeagueForm from "@/components/LeagueForm";
-import {defaultLeagueValues, leagueSchema} from "@/constants/league";
-import {LeagueFormFields} from "@/types/league";
+import LeagueForm from "@/components/forms/LeagueForm";
+import {defaultLeagueValues, leagueSchema} from "@/lib/constants/league";
+import {LeagueFormFields} from "@/lib/types/league";
+import {useCreateLeague} from "@/hooks/league/useCreateLeague";
 
 export default function CreateLeagueScreen() {
     const {accessToken} = useAuth();

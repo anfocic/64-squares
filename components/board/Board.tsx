@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Platform } from 'react-native';
-import Chessboard from 'react-native-chessboard'; // For mobile
-import { Chessboard as WebChessBoard } from 'react-chessboard'; // For web
+import Chessboard from 'react-native-chessboard';
+import { Chessboard as WebChessBoard } from 'react-chessboard';
 
 type ChessBoardWrapperProps = {
     fen: string;
-    onMove: (from: string, to: string) => void;
+    onMove: (from: string, to: string) => boolean;
     isWhite: boolean;
     size?: number;
 };
 
-const ChessBoardWrapper: React.FC<ChessBoardWrapperProps> = ({
+const Board: React.FC<ChessBoardWrapperProps> = ({
                                                                  fen,
                                                                  onMove,
                                                                  isWhite,
@@ -31,13 +31,16 @@ const ChessBoardWrapper: React.FC<ChessBoardWrapperProps> = ({
             </div>
         );
     }
-    console.log(typeof fen)
+
     return (
         <View style={{ width: size, height: size }}>
             <Chessboard
                 fen={fen}
                 isWhite={isWhite}
-                onMove={onMove}
+                onMove={(info) => {
+                    // Adapt the ChessMoveInfo to our onMove signature
+                    onMove(info.from, info.to);
+                }}
                 gestureEnabled={true}
                 size={size}
             />
@@ -45,4 +48,4 @@ const ChessBoardWrapper: React.FC<ChessBoardWrapperProps> = ({
     );
 };
 
-export default ChessBoardWrapper;
+export default Board;
