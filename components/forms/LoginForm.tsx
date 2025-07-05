@@ -1,4 +1,4 @@
-import {CheckBox, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {AntDesign, FontAwesome, Ionicons} from "@expo/vector-icons";
 import {Link} from "expo-router";
@@ -53,15 +53,17 @@ export function LoginForm({ onLogin, loading, error }: Props) {const [email, set
                 </View>
 
                 <View style={styles.row}>
-                    <View style={styles.rememberMe}>
-                        <CheckBox
-                            value={rememberMe}
-                            onValueChange={setRememberMe}
-                            tintColors={{ true: "#8bc34a", false: "#888" }}
-                        />
+                    <TouchableOpacity
+                        style={styles.rememberMe}
+                        onPress={() => setRememberMe(!rememberMe)}
+                    >
+                        <View style={[
+                            styles.checkbox,
+                            rememberMe && styles.checkboxChecked
+                        ]} />
                         <Text style={styles.rememberMeText}>Remember me</Text>
-                    </View>
-                    <Link href="/auth/forgot-password" style={styles.forgotPassword}>
+                    </TouchableOpacity>
+                    <Link href="/auth/login" style={styles.forgotPassword}>
                         Forgot Password?
                     </Link>
                 </View>

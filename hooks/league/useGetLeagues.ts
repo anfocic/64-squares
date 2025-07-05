@@ -8,7 +8,7 @@ export function useLeagues() {
             const res = await getAllLeagues();
             console.log(res)
             if (!res) throw new Error('Failed to fetch leagues');
-            return res.json();
+            return res; // getAllLeagues should already return parsed data
         },
     });
 }

@@ -9,10 +9,25 @@ export function parseFEN(fen: string): Position {
     const chess = new Chess(fen);
 
     return {
-        fen: chess.fen(),
-        turn: chess.turn(),
-        board: chess.board(), // 8x8 matrix of pieces or null
-        // optionally extract other properties if your Position type includes them
+        turn: chess.turn() === 'w' ? 'white' : 'black',
+        board: chess.board().map(row =>
+            row.map(piece => piece ? {
+                type: piece.type === 'p' ? 'pawn' :
+                      piece.type === 'n' ? 'knight' :
+                      piece.type === 'b' ? 'bishop' :
+                      piece.type === 'r' ? 'rook' :
+                      piece.type === 'q' ? 'queen' : 'king',
+                color: piece.color === 'w' ? 'white' : 'black'
+            } : null)
+        ),
+        castlingRights: {
+            whiteKingSide: chess.getCastlingRights('w').k,
+            whiteQueenSide: chess.getCastlingRights('w').q,
+            blackKingSide: chess.getCastlingRights('b').k,
+            blackQueenSide: chess.getCastlingRights('b').q,
+        },
+        halfmoveClock: 0, // Chess.js doesn't expose this easily
+        fullmoveNumber: chess.moveNumber(),
     };
 }
 

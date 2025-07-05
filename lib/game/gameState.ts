@@ -1,4 +1,19 @@
 import {Move, Position} from "@/lib/types/board";
+import {applyMove} from "@/lib/game/rulesEngine";
+
+// Default starting position
+const INITIAL_POSITION: Position = {
+    board: [], // This would be populated with the initial chess position
+    turn: 'white',
+    castlingRights: {
+        whiteKingSide: true,
+        whiteQueenSide: true,
+        blackKingSide: true,
+        blackQueenSide: true,
+    },
+    halfmoveClock: 0,
+    fullmoveNumber: 1,
+};
 
 export class GameState {
     private moveHistory: Move[] = [];

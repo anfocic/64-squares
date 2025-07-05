@@ -1,6 +1,6 @@
 
 import { applyMove } from '../game/rulesEngine';
-import {Position} from "@/lib/types/board";
+import {Position, Move} from "@/lib/types/board";
 
 export function computePositionFromMoves(initial: Position, moves: Move[], upTo?: number): Position {
     let position = initial;

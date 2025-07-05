@@ -130,4 +130,17 @@ export default StyleSheet.create({
         fontSize: 14,
         textDecorationLine: "underline",
     },
+    checkbox: {
+        width: 18,
+        height: 18,
+        borderWidth: 2,
+        borderColor: "#666",
+        borderRadius: 3,
+        marginRight: 8,
+        backgroundColor: "transparent",
+    },
+    checkboxChecked: {
+        backgroundColor: "#8bc34a",
+        borderColor: "#8bc34a",
+    },
 });

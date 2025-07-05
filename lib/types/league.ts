@@ -11,7 +11,7 @@ export type NewLeague = {
 };
 
 export interface LeagueFormFields {
-    name?: string;
+    name: string;
     format: string;
     rounds: number;
     base_minutes: number;
@@ -19,5 +19,5 @@ export interface LeagueFormFields {
     games_per_pairing: number;
     allow_draws: boolean;
     auto_pairing: boolean;
-    start_date: any;
+    start_date: Date;
 }

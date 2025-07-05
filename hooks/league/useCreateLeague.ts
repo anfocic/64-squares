@@ -10,7 +10,7 @@ export function useCreateLeague() {
     return {
         createLeague: mutation.mutate,
         createLeagueAsync: mutation.mutateAsync,
-        isLoading: mutation.isLoading,
+        isLoading: mutation.isPending,
         ...mutation,
     };
 }

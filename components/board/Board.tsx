@@ -36,13 +36,13 @@ const Board: React.FC<ChessBoardWrapperProps> = ({
         <View style={{ width: size, height: size }}>
             <Chessboard
                 fen={fen}
-                isWhite={isWhite}
-                onMove={(info) => {
-                    // Adapt the ChessMoveInfo to our onMove signature
-                    onMove(info.from, info.to);
+                onMove={(info: any) => {
+                    // Extract from and to from the move info
+                    if (info && info.from && info.to) {
+                        onMove(info.from, info.to);
+                    }
                 }}
                 gestureEnabled={true}
-                size={size}
             />
         </View>
     );

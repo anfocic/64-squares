@@ -15,7 +15,7 @@ const MoveControls = ({moves, startingFEN}: Props) => {
         goForward,
         canGoBack,
         canGoForward,
-    } = useNavigationState(moves, startingFEN);
+    } = useNavigationState(moves || [], startingFEN || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     console.log('hello moves')
     const disabledColor = '#586e75';
     const activeColor = '#93a1a1';

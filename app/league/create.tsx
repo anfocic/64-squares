@@ -24,6 +24,7 @@ export default function CreateLeagueScreen() {
                 data: {
                     name: data.name as string,
                     settings: {
+                        name: data.name,
                         format: data.format,
                         rounds: data.rounds,
                         base_minutes: data.base_minutes,
@@ -31,7 +32,7 @@ export default function CreateLeagueScreen() {
                         games_per_pairing: data.games_per_pairing,
                         allow_draws: data.allow_draws,
                         auto_pairing: data.auto_pairing,
-                        start_date: data.start_date.toISOString().split("T")[0],
+                        start_date: data.start_date,
                     },
                 },
             });

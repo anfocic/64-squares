@@ -1,6 +1,6 @@
 // logic/game/rulesEngine.ts
 
-import { Move, Position, Piece } from '../types';
+import { Move, Position, Piece } from '../types/board';
 
 export function applyMove(position: Position, move: Move): Position {
     const newBoard = position.board.map(row => row.slice()); // deep copy

@@ -11,7 +11,7 @@ export async function request(
         ...options.headers,
     };
     if (authorized && token) {
-        headers["Authorization"] = `Bearer ${token}`;
+        (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
     }
 
     const res = await fetch(`${BASE_URL}${path}`, {
