@@ -51,9 +51,11 @@ Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and W
 
 - **Framework:** React Native with Expo
 - **Language:** TypeScript
-- **Chess Engine:** Chess.js
+- **Chess Engine:** Chess.js + Custom Board Implementation
+- **Computer Player:** Stockfish (planned) + Simple AI (current)
 - **State Management:** React Context + React Query
 - **UI Components:** React Native + Custom Components
+- **Board Theming:** Custom implementation with 12+ themes
 - **Forms:** React Hook Form + Yup validation
 - **Navigation:** Expo Router
 - **Platforms:** iOS, Android, Web

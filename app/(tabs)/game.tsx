@@ -7,10 +7,14 @@ import { useRouter } from 'expo-router';
 import GameControls from "@/components/game/GameControls";
 import PlayerInfo from "@/components/board/PlayerInfo";
 import Board from "@/components/board/Board";
+import BoardSettings from "@/components/board/BoardSettings";
 // import MoveList from "@/components/game/MoveList";
 import GameTimer from "@/components/game/GameTimer";
 import CapturedPieces from "@/components/game/CapturedPieces";
-import {useGame} from "@/context/GameContext";
+import GameModeSelector from "@/components/game/GameModeSelector";
+import { useBoardTheme } from "@/context/BoardThemeContext";
+import ComputerThinkingIndicator from "@/components/game/ComputerThinkingIndicator";
+import {useGame, GameMode} from "@/context/GameContext";
 import {useTheme} from "@/context/ThemeContext";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -24,7 +28,10 @@ export default function GameScreen() {
         isGameOver,
         winner,
         currentTurn,
-        game
+        game,
+        gameMode,
+        isComputerThinking,
+        isComputerTurn
     } = useGame();
 
     const { theme } = useTheme();
@@ -33,6 +40,29 @@ export default function GameScreen() {
 
     // Game state
     const [showMoveList, setShowMoveList] = useState(false);
+    const [showSetup, setShowSetup] = useState(true);
+    const [gameStarted, setGameStarted] = useState(false);
+    const [showBoardSettings, setShowBoardSettings] = useState(false);
+
+    // Board theme context
+    const {
+        boardTheme,
+        boardStyle,
+        setBoardTheme,
+        setBoardStyle,
+    } = useBoardTheme();
+
+    // Handle starting the game
+    const handleStartGame = () => {
+        setShowSetup(false);
+        setGameStarted(true);
+    };
+
+    // Handle showing setup again
+    const handleShowSetup = () => {
+        setShowSetup(true);
+        setGameStarted(false);
+    };
     const [showGameMenu, setShowGameMenu] = useState(false);
 
     // TODO: Replace with real player data from game context or props
@@ -96,6 +126,32 @@ export default function GameScreen() {
             padding: 8,
             borderRadius: 8,
             backgroundColor: theme.cardBackground,
+        },
+        gameModeSection: {
+            paddingHorizontal: 16,
+            paddingTop: 8,
+        },
+        setupButtonSection: {
+            paddingHorizontal: 16,
+            paddingTop: 8,
+            paddingBottom: 8,
+        },
+        setupButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.surface,
+            borderRadius: 8,
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            borderWidth: 1,
+            borderColor: theme.primary + '30',
+        },
+        setupButtonText: {
+            color: theme.primary,
+            fontSize: 14,
+            fontWeight: '600',
+            marginLeft: 6,
         },
         gameArea: {
             flex: 1,
@@ -214,16 +270,49 @@ export default function GameScreen() {
 
                 <Text style={styles.headerTitle}>64 Squares</Text>
 
-                <TouchableOpacity
-                    style={styles.menuButton}
-                    onPress={() => setShowMoveList(!showMoveList)}
-                >
-                    <Ionicons name="list" size={24} color={theme.text} />
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', gap: 8 }}>
+                    <TouchableOpacity
+                        style={styles.menuButton}
+                        onPress={() => setShowBoardSettings(true)}
+                    >
+                        <Ionicons name="color-palette" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.menuButton}
+                        onPress={() => setShowMoveList(!showMoveList)}
+                    >
+                        <Ionicons name="list" size={24} color={theme.text} />
+                    </TouchableOpacity>
+                </View>
             </View>
 
-            {/* Main Game Area */}
-            <View style={styles.gameArea}>
+            {/* Game Mode Selector */}
+            {showSetup && (
+                <View style={styles.gameModeSection}>
+                    <GameModeSelector
+                        onStartGame={handleStartGame}
+                        isVisible={showSetup}
+                    />
+                </View>
+            )}
+
+            {/* Setup Button (when game is started) */}
+            {gameStarted && !showSetup && (
+                <View style={styles.setupButtonSection}>
+                    <TouchableOpacity
+                        style={styles.setupButton}
+                        onPress={handleShowSetup}
+                    >
+                        <Ionicons name="settings-outline" size={20} color={theme.primary} />
+                        <Text style={styles.setupButtonText}>Game Setup</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            {/* Main Game Area - Only show when game is started */}
+            {gameStarted && !showSetup && (
+                <View style={styles.gameArea}>
                 {/* Opponent Info */}
                 <View style={styles.opponentSection}>
                     <PlayerInfo
@@ -241,17 +330,29 @@ export default function GameScreen() {
                 <View style={styles.boardSection}>
                     <View style={styles.boardWrapper}>
                         <Board
-                            onMove={makeMove}
+                            onMove={gameMode === GameMode.COMPUTER_VS_COMPUTER ? () => false : makeMove}
                             fen={fen}
                             isWhite={isWhite}
                             size={boardSize}
+                            boardTheme={boardTheme}
+                            boardStyle={boardStyle}
+                            lastMove={game.history({ verbose: true }).slice(-1)[0] ? {
+                                from: game.history({ verbose: true }).slice(-1)[0].from,
+                                to: game.history({ verbose: true }).slice(-1)[0].to
+                            } : null}
+                            checkSquare={game.inCheck() ?
+                                (game.turn() === 'w' ? 'e1' : 'e8') // Simplified - would need proper king position detection
+                                : null}
                         />
                     </View>
 
                     <View style={styles.gameInfo}>
                         <View style={styles.turnIndicator}>
                             <Text style={styles.turnText}>
-                                {currentTurn === 'w' ? 'White' : 'Black'} to move
+                                {gameMode === GameMode.COMPUTER_VS_COMPUTER
+                                    ? `${currentTurn === 'w' ? 'White' : 'Black'} Computer thinking...`
+                                    : `${currentTurn === 'w' ? 'White' : 'Black'} to move`
+                                }
                             </Text>
                         </View>
 
@@ -283,11 +384,17 @@ export default function GameScreen() {
                     />
                 </View>
             </View>
+            )}
 
-            {/* Game Controls */}
-            <View style={styles.controlsSection}>
-                <GameControls />
-            </View>
+            {/* Computer Thinking Indicator - Only show when game is started */}
+            {gameStarted && !showSetup && <ComputerThinkingIndicator />}
+
+            {/* Game Controls - Only show when game is started */}
+            {gameStarted && !showSetup && (
+                <View style={styles.controlsSection}>
+                    <GameControls onReturnToSetup={handleShowSetup} />
+                </View>
+            )}
 
             {/* Move List Overlay */}
             {showMoveList && (
@@ -306,6 +413,15 @@ export default function GameScreen() {
                     </View>
                 </View>
             )}
+
+            <BoardSettings
+                visible={showBoardSettings}
+                onClose={() => setShowBoardSettings(false)}
+                boardTheme={boardTheme}
+                boardStyle={boardStyle}
+                onThemeChange={setBoardTheme}
+                onStyleChange={setBoardStyle}
+            />
         </GestureHandlerRootView>
     );
 }

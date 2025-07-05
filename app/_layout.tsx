@@ -6,6 +6,7 @@ import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/lib/react-query";
 import {GameProvider} from "@/context/GameContext";
 import {ThemeProvider} from "@/context/ThemeContext";
+import {BoardThemeProvider} from "@/context/BoardThemeContext";
 import {StatusBar} from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -26,16 +27,18 @@ export default function RootLayout() {
     return (
         <SafeAreaProvider>
             <ThemeProvider>
-                <AuthProvider>
-                    <UserProvider>
-                        <GameProvider>
-                            <QueryClientProvider client={queryClient}>
-                                <StatusBar style="auto" />
-                                <RootLayoutNav/>
-                            </QueryClientProvider>
-                        </GameProvider>
-                    </UserProvider>
-                </AuthProvider>
+                <BoardThemeProvider>
+                    <AuthProvider>
+                        <UserProvider>
+                            <GameProvider>
+                                <QueryClientProvider client={queryClient}>
+                                    <StatusBar style="auto" />
+                                    <RootLayoutNav/>
+                                </QueryClientProvider>
+                            </GameProvider>
+                        </UserProvider>
+                    </AuthProvider>
+                </BoardThemeProvider>
             </ThemeProvider>
         </SafeAreaProvider>
     );

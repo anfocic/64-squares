@@ -5,7 +5,11 @@ import { useTheme } from "@/context/ThemeContext";
 import { useGame } from "@/context/GameContext";
 import MoveControls from "@/components/game/MoveControls";
 
-const GameControls = () => {
+interface GameControlsProps {
+    onReturnToSetup?: () => void;
+}
+
+const GameControls = ({ onReturnToSetup }: GameControlsProps) => {
     const { theme } = useTheme();
     const { resetGame, isGameOver } = useGame();
     const [showGameActions, setShowGameActions] = useState(false);
@@ -25,11 +29,12 @@ const GameControls = () => {
     const handleResign = () => {
         Alert.alert(
             "Resign Game",
-            "Are you sure you want to resign?",
+            "Are you sure you want to resign? This will return you to the game setup.",
             [
                 { text: "Cancel", style: "cancel" },
                 { text: "Resign", style: "destructive", onPress: () => {
-                    Alert.alert("Game Over", "You resigned the game.");
+                    resetGame();
+                    onReturnToSetup?.();
                 }}
             ]
         );

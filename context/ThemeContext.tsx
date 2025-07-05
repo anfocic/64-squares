@@ -26,13 +26,16 @@ export interface Theme {
   // Border and divider colors
   border: string;
   divider: string;
-  
+
   // Chess-specific colors
   chessLight: string;
   chessDark: string;
   chessHighlight: string;
   chessSelected: string;
-  
+
+  // Shadow
+  shadow: string;
+
   // Status bar
   statusBarStyle: 'light-content' | 'dark-content';
 }
@@ -68,7 +71,10 @@ export const lightTheme: Theme = {
   chessDark: '#b58863',
   chessHighlight: '#ffff00',
   chessSelected: '#ff6b6b',
-  
+
+  // Shadow
+  shadow: '#000000',
+
   // Status bar
   statusBarStyle: 'dark-content',
 };
@@ -104,7 +110,10 @@ export const darkTheme: Theme = {
   chessDark: '#b58863',
   chessHighlight: '#ffff00',
   chessSelected: '#ff6b6b',
-  
+
+  // Shadow
+  shadow: '#000000',
+
   // Status bar
   statusBarStyle: 'light-content',
 };
