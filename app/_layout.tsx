@@ -1,5 +1,6 @@
 import {Stack} from 'expo-router';
 import {AuthProvider, useAuth} from "@/context/AuthContext";
+import {UserProvider} from "@/context/UserContext";
 import React from "react";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/lib/react-query";
@@ -13,7 +14,9 @@ function RootLayoutNav() {
     return (
         <Stack>
             <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-            <Stack.Screen name="auth/login" options={{headerShown: false}}/>
+            <Stack.Screen name="auth/login/index" options={{headerShown: false}}/>
+            <Stack.Screen name="auth/register" options={{headerShown: false}}/>
+            <Stack.Screen name="auth/forgot-password" options={{headerShown: false}}/>
             <Stack.Screen name="league" options={{headerShown: false}}/>
         </Stack>
     );
@@ -24,12 +27,14 @@ export default function RootLayout() {
         <SafeAreaProvider>
             <ThemeProvider>
                 <AuthProvider>
-                    <GameProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <StatusBar style="auto" />
-                            <RootLayoutNav/>
-                        </QueryClientProvider>
-                    </GameProvider>
+                    <UserProvider>
+                        <GameProvider>
+                            <QueryClientProvider client={queryClient}>
+                                <StatusBar style="auto" />
+                                <RootLayoutNav/>
+                            </QueryClientProvider>
+                        </GameProvider>
+                    </UserProvider>
                 </AuthProvider>
             </ThemeProvider>
         </SafeAreaProvider>

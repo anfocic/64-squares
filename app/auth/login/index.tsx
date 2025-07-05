@@ -1,5 +1,4 @@
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
 import {useLogin} from "@/hooks/auth/useLogin";
 import {LoginForm} from "@/components/forms/LoginForm";
 
@@ -11,37 +10,12 @@ const Login = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Welcome Back!</Text>
-            <LoginForm onLogin={onLogin} loading={loading} />
-        </View>
+        <LoginForm
+            onLogin={onLogin}
+            loading={loading}
+            error={error}
+        />
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        padding: 24,
-        backgroundColor: "#fff",
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: "bold",
-        marginBottom: 24,
-        textAlign: "center",
-    },
-    error: {
-        color: "red",
-        marginTop: 16,
-        textAlign: "center",
-    },
-    registerLink: {
-        color: "#007AFF",
-        marginTop: 24,
-        textAlign: "center",
-        textDecorationLine: "underline",
-    },
-});
 
 export default Login;

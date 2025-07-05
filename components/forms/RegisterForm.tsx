@@ -1,21 +1,62 @@
-import {Text, TextInput, TouchableOpacity, View, StyleSheet, ActivityIndicator} from 'react-native';
-import React, {useState} from 'react';
-import {AntDesign, FontAwesome, Ionicons} from "@expo/vector-icons";
-import {Link} from "expo-router";
+import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+    ActivityIndicator,
+} from 'react-native';
+import { Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 import { useTheme } from '@/context/ThemeContext';
 
 type Props = {
-    onLogin: (email: string, password: string) => void;
+    onRegister: (username: string, email: string, password: string) => void;
     loading?: boolean;
     error?: string | null;
 };
 
-export function LoginForm({ onLogin, loading, error }: Props) {
+export function RegisterForm({ onRegister, loading, error }: Props) {
     const { theme } = useTheme();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [rememberMe, setRememberMe] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [agreeToTerms, setAgreeToTerms] = useState(false);
+
+    const handleRegister = () => {
+        // Validation
+        if (!username.trim()) {
+            Alert.alert('Error', 'Username is required');
+            return;
+        }
+        if (!email.trim()) {
+            Alert.alert('Error', 'Email is required');
+            return;
+        }
+        if (!password) {
+            Alert.alert('Error', 'Password is required');
+            return;
+        }
+        if (password !== confirmPassword) {
+            Alert.alert('Error', 'Passwords do not match');
+            return;
+        }
+        if (password.length < 6) {
+            Alert.alert('Error', 'Password must be at least 6 characters');
+            return;
+        }
+        if (!agreeToTerms) {
+            Alert.alert('Error', 'Please agree to the terms and conditions');
+            return;
+        }
+
+        onRegister(username.trim(), email.trim(), password);
+    };
 
     const styles = StyleSheet.create({
         container: {
@@ -71,15 +112,10 @@ export function LoginForm({ onLogin, loading, error }: Props) {
             height: 48,
             fontSize: 16,
         },
-        row: {
+        termsContainer: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: 24,
-        },
-        rememberMe: {
-            flexDirection: 'row',
-            alignItems: 'center',
         },
         checkbox: {
             width: 18,
@@ -87,7 +123,7 @@ export function LoginForm({ onLogin, loading, error }: Props) {
             borderWidth: 2,
             borderColor: theme.border,
             borderRadius: 3,
-            marginRight: 8,
+            marginRight: 12,
             backgroundColor: 'transparent',
             alignItems: 'center',
             justifyContent: 'center',
@@ -96,16 +132,16 @@ export function LoginForm({ onLogin, loading, error }: Props) {
             backgroundColor: theme.primary,
             borderColor: theme.primary,
         },
-        rememberMeText: {
+        termsText: {
             color: theme.textSecondary,
             fontSize: 14,
+            flex: 1,
         },
-        forgotPassword: {
+        termsLink: {
             color: theme.primary,
-            fontSize: 14,
             textDecorationLine: 'underline',
         },
-        loginButton: {
+        registerButton: {
             backgroundColor: theme.primary,
             borderRadius: 8,
             paddingVertical: 14,
@@ -113,7 +149,7 @@ export function LoginForm({ onLogin, loading, error }: Props) {
             marginBottom: 24,
             opacity: loading ? 0.7 : 1,
         },
-        loginButtonText: {
+        registerButtonText: {
             color: theme.surface,
             fontWeight: 'bold',
             fontSize: 18,
@@ -177,21 +213,36 @@ export function LoginForm({ onLogin, loading, error }: Props) {
                 {/* Logo */}
                 <View style={styles.logoContainer}>
                     <Text style={styles.logoText}>64 Squares</Text>
-                    <Text style={styles.subtitle}>Welcome back!</Text>
+                    <Text style={styles.subtitle}>Join the chess community</Text>
                 </View>
 
                 {/* Error Message */}
                 {error && <Text style={styles.errorText}>{error}</Text>}
 
-                {/* Email Input */}
+                {/* Username Input */}
                 <View style={styles.inputContainer}>
                     <FontAwesome name="user" size={18} color={theme.textSecondary} style={styles.icon} />
                     <TextInput
                         style={styles.input}
-                        placeholder="Username, Phone, or Email"
+                        placeholder="Username"
+                        placeholderTextColor={theme.textSecondary}
+                        value={username}
+                        onChangeText={setUsername}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+                </View>
+
+                {/* Email Input */}
+                <View style={styles.inputContainer}>
+                    <FontAwesome name="envelope" size={18} color={theme.textSecondary} style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
                         placeholderTextColor={theme.textSecondary}
                         value={email}
                         onChangeText={setEmail}
+                        keyboardType="email-address"
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
@@ -209,42 +260,62 @@ export function LoginForm({ onLogin, loading, error }: Props) {
                         onChangeText={setPassword}
                     />
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                        <Ionicons
-                            name={showPassword ? "eye-off" : "eye"}
-                            size={18}
-                            color={theme.textSecondary}
+                        <Ionicons 
+                            name={showPassword ? "eye-off" : "eye"} 
+                            size={18} 
+                            color={theme.textSecondary} 
                         />
                     </TouchableOpacity>
                 </View>
 
-                {/* Remember Me & Forgot Password */}
-                <View style={styles.row}>
-                    <TouchableOpacity
-                        style={styles.rememberMe}
-                        onPress={() => setRememberMe(!rememberMe)}
-                    >
-                        <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]}>
-                            {rememberMe && (
-                                <Ionicons name="checkmark" size={12} color={theme.surface} />
-                            )}
-                        </View>
-                        <Text style={styles.rememberMeText}>Remember me</Text>
+                {/* Confirm Password Input */}
+                <View style={styles.inputContainer}>
+                    <FontAwesome name="lock" size={18} color={theme.textSecondary} style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Confirm Password"
+                        placeholderTextColor={theme.textSecondary}
+                        secureTextEntry={!showConfirmPassword}
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                    />
+                    <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+                        <Ionicons 
+                            name={showConfirmPassword ? "eye-off" : "eye"} 
+                            size={18} 
+                            color={theme.textSecondary} 
+                        />
                     </TouchableOpacity>
-                    <Link href="/auth/forgot-password" style={styles.forgotPassword}>
-                        Forgot Password?
-                    </Link>
                 </View>
 
-                {/* Log In Button */}
-                <TouchableOpacity
-                    style={styles.loginButton}
-                    onPress={() => onLogin(email, password)}
+                {/* Terms and Conditions */}
+                <View style={styles.termsContainer}>
+                    <TouchableOpacity
+                        style={[styles.checkbox, agreeToTerms && styles.checkboxChecked]}
+                        onPress={() => setAgreeToTerms(!agreeToTerms)}
+                    >
+                        {agreeToTerms && (
+                            <Ionicons name="checkmark" size={12} color={theme.surface} />
+                        )}
+                    </TouchableOpacity>
+                    <Text style={styles.termsText}>
+                        I agree to the{' '}
+                        <Text style={styles.termsLink}>Terms of Service</Text>
+                        {' '}and{' '}
+                        <Text style={styles.termsLink}>Privacy Policy</Text>
+                    </Text>
+                </View>
+
+                {/* Register Button */}
+                <TouchableOpacity 
+                    style={styles.registerButton} 
+                    onPress={handleRegister}
                     disabled={loading}
                 >
                     {loading ? (
                         <ActivityIndicator color={theme.surface} />
                     ) : (
-                        <Text style={styles.loginButtonText}>Log In</Text>
+                        <Text style={styles.registerButtonText}>Create Account</Text>
                     )}
                 </TouchableOpacity>
 
@@ -258,22 +329,22 @@ export function LoginForm({ onLogin, loading, error }: Props) {
                 {/* Social Buttons */}
                 <TouchableOpacity style={styles.socialButton}>
                     <AntDesign name="google" size={20} color={theme.text} />
-                    <Text style={styles.socialButtonText}>Log in with Google</Text>
+                    <Text style={styles.socialButtonText}>Sign up with Google</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.socialButton}>
                     <AntDesign name="apple1" size={20} color={theme.text} />
-                    <Text style={styles.socialButtonText}>Log in with Apple</Text>
+                    <Text style={styles.socialButtonText}>Sign up with Apple</Text>
                 </TouchableOpacity>
 
                 {/* Footer */}
                 <View style={styles.footer}>
-                    <Text style={styles.footerText}>New? </Text>
-                    <Link href="/auth/register" style={styles.footerLink}>
-                        Sign up – and start playing chess!
+                    <Text style={styles.footerText}>Already have an account? </Text>
+                    <Link href="/auth/login" style={styles.footerLink}>
+                        Sign in
                     </Link>
                 </View>
             </View>
         </View>
-
     );
 }

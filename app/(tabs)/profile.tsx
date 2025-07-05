@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import ProfileCard from "@/components/profile/ProfileCard";
 import UserStats from "@/components/profile/UserStats";
@@ -10,22 +11,38 @@ import SettingsSection from "@/components/profile/SettingsSection";
 export default function ProfileScreen() {
     const { theme, isDark, toggleTheme } = useTheme();
     const { logout } = useAuth();
+    const { user, loading: userLoading } = useUser();
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
 
-    // Mock user data - replace with real data from context/API
-    const userData = {
-        name: "Chess Master",
-        username: "@chessmaster",
-        email: "chess@64squares.com",
-        rating: 1847,
+    // Use real user data or fallback to mock data
+    const userData = user ? {
+        name: user.username,
+        username: `@${user.username}`,
+        email: user.email,
+        rating: user.rating,
+        country: user.country || "🌍 Global",
+        joinDate: new Date(user.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long'
+        }),
+        gamesPlayed: user.gamesPlayed,
+        wins: user.gamesWon,
+        losses: user.gamesLost,
+        draws: user.gamesDrawn,
+        avatar: user.avatar,
+    } : {
+        name: "Chess Player",
+        username: "@player",
+        email: "player@64squares.com",
+        rating: 1200,
         country: "🌍 Global",
-        joinDate: "January 2024",
-        gamesPlayed: 156,
-        wins: 89,
-        losses: 45,
-        draws: 22,
-        avatar: null, // Will use default icon
+        joinDate: "Recently",
+        gamesPlayed: 0,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        avatar: null,
     };
 
     const stats = [
@@ -149,6 +166,15 @@ export default function ProfileScreen() {
             fontWeight: 'bold',
         },
     });
+
+    if (userLoading) {
+        return (
+            <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+                <ActivityIndicator size="large" color={theme.primary} />
+                <Text style={{ color: theme.text, marginTop: 16 }}>Loading profile...</Text>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>

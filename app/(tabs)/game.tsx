@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 import GameControls from "@/components/game/GameControls";
 import PlayerInfo from "@/components/board/PlayerInfo";
 import Board from "@/components/board/Board";
-import MoveList from "@/components/game/MoveList";
+// import MoveList from "@/components/game/MoveList";
 import GameTimer from "@/components/game/GameTimer";
 import CapturedPieces from "@/components/game/CapturedPieces";
 import {useGame} from "@/context/GameContext";
@@ -299,7 +299,10 @@ export default function GameScreen() {
                         >
                             <Ionicons name="close" size={20} color={theme.text} />
                         </TouchableOpacity>
-                        <MoveList maxHeight={400} />
+                        {/* <MoveList maxHeight={400} /> */}
+                        <Text style={{ color: theme.text, textAlign: 'center' }}>
+                            Move List Coming Soon
+                        </Text>
                     </View>
                 </View>
             )}
