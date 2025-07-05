@@ -7,6 +7,7 @@ export default function TabsLayout() {
 
     return (
         <Tabs
+            initialRouteName="home"
             screenOptions={{
                 tabBarStyle: {
                     backgroundColor: theme.surface,
@@ -39,6 +40,8 @@ export default function TabsLayout() {
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="game-controller-outline" size={size} color={color} />
                     ),
+                    tabBarStyle: { display: 'none' },
+                    headerShown: false,
                 }}
             />
             <Tabs.Screen

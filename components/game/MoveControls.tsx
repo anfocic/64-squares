@@ -1,6 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigationState} from '@/hooks/game/useNavigationState';
+import { useTheme } from "@/context/ThemeContext";
 import React from 'react';
 import {Move} from "@/lib/types/board";
 
@@ -10,60 +11,61 @@ type Props = {
 };
 
 const MoveControls = ({moves, startingFEN}: Props) => {
+    const { theme } = useTheme();
     const {
         goBack,
         goForward,
         canGoBack,
         canGoForward,
     } = useNavigationState(moves || [], startingFEN || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    console.log('hello moves')
-    const disabledColor = '#586e75';
-    const activeColor = '#93a1a1';
+
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            gap: 8,
+        },
+        moveButton: {
+            backgroundColor: theme.cardBackground,
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: theme.border,
+            minWidth: 48,
+        },
+        disabledButton: {
+            opacity: 0.5,
+        },
+    });
 
     return (
-        <View style={styles.submenu}>
+        <View style={styles.container}>
             <TouchableOpacity
-                style={styles.submenuButton}
+                style={[styles.moveButton, !canGoBack && styles.disabledButton]}
                 onPress={goBack}
                 disabled={!canGoBack}
             >
                 <Ionicons
                     name="chevron-back-outline"
                     size={24}
-                    color={canGoBack ? activeColor : disabledColor}
+                    color={theme.text}
                 />
             </TouchableOpacity>
 
             <TouchableOpacity
-                style={styles.submenuButton}
+                style={[styles.moveButton, !canGoForward && styles.disabledButton]}
                 onPress={goForward}
                 disabled={!canGoForward}
             >
                 <Ionicons
                     name="chevron-forward-outline"
                     size={24}
-                    color={canGoForward ? activeColor : disabledColor}
+                    color={theme.text}
                 />
             </TouchableOpacity>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    submenu: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        marginTop: 16,
-        paddingHorizontal: 20,
-    },
-    submenuButton: {
-        backgroundColor: '#073642',
-        padding: 10,
-        borderRadius: 6,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default MoveControls;

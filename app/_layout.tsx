@@ -6,6 +6,7 @@ import {queryClient} from "@/lib/react-query";
 import {GameProvider} from "@/context/GameContext";
 import {ThemeProvider} from "@/context/ThemeContext";
 import {StatusBar} from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 function RootLayoutNav() {
 
@@ -20,15 +21,17 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
     return (
-        <ThemeProvider>
-            <AuthProvider>
-                <GameProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <StatusBar style="auto" />
-                        <RootLayoutNav/>
-                    </QueryClientProvider>
-                </GameProvider>
-            </AuthProvider>
-        </ThemeProvider>
+        <SafeAreaProvider>
+            <ThemeProvider>
+                <AuthProvider>
+                    <GameProvider>
+                        <QueryClientProvider client={queryClient}>
+                            <StatusBar style="auto" />
+                            <RootLayoutNav/>
+                        </QueryClientProvider>
+                    </GameProvider>
+                </AuthProvider>
+            </ThemeProvider>
+        </SafeAreaProvider>
     );
 }
