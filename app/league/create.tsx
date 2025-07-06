@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { router } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import LeagueForm from "@/components/forms/LeagueForm";
+import { LeagueForm } from "@/components/features/auth";
 import { defaultLeagueValues, leagueSchema } from "@/lib/constants/league";
 import { LeagueFormFields } from "@/lib/types/league";
 import { useCreateLeague } from "@/hooks/league/useCreateLeague";

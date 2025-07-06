@@ -107,11 +107,16 @@ Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and W
 │   ├── (tabs)/            # Tab navigation screens
 │   ├── auth/              # Authentication screens
 │   └── league/            # League management
-├── components/            # Reusable UI components
-│   ├── atoms/             # Basic form inputs
-│   ├── board/             # Chess board components
-│   ├── forms/             # Form components
-│   └── game/              # Game-specific components
+├── components/            # Feature-based component organization
+│   ├── ui/                # Reusable UI components (atoms)
+│   ├── features/          # Feature-specific components
+│   │   ├── chess/         # Chess game components
+│   │   │   ├── board/     # Board, settings, themes
+│   │   │   └── game/      # Game controls, timer, moves
+│   │   ├── auth/          # Authentication forms
+│   │   ├── league/        # League management
+│   │   └── profile/       # User profile components
+│   └── layout/            # Layout components
 ├── context/               # React Context providers
 ├── hooks/                 # Custom React hooks
 ├── lib/                   # Utilities and types

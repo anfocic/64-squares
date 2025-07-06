@@ -4,9 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
 import { useUser } from "@/context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
-import ProfileCard from "@/components/profile/ProfileCard";
-import UserStats from "@/components/profile/UserStats";
-import SettingsSection from "@/components/profile/SettingsSection";
+import { ProfileCard, UserStats, SettingsSection } from "@/components/features/profile";
 
 export default function ProfileScreen() {
     const { theme, isDark, toggleTheme } = useTheme();

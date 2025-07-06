@@ -4,9 +4,7 @@ import { router } from "expo-router";
 import { useTheme } from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useLeagues } from "@/hooks/league/useGetLeagues";
-import LeagueCard, { LeagueCardData } from "@/components/league/LeagueCard";
-import LeagueStats from "@/components/league/LeagueStats";
-import LeagueFilter, { LeagueFilterType } from "@/components/league/LeagueFilter";
+import { LeagueCard, LeagueStats, LeagueFilter, LeagueCardData, LeagueFilterType } from "@/components/features/league";
 
 export default function LeagueScreen() {
     const { theme } = useTheme();

@@ -1,9 +1,8 @@
 import React from "react";
-import {Button, Text, View} from "react-native";
-import TextInput from "@/components/atoms/TextInput";
-import SwitchInput from "@/components/atoms/SwitchInput";
+import {Button, Text, TextInput, View} from "react-native";
 import {FieldValues} from "react-hook-form";
 import {FormProps} from "@/lib/types/props";
+import {SwitchInput} from "@/components/ui";
 
 export default function LeagueForm<T extends FieldValues>({control, onSubmit, handleSubmit, isSubmitting}: FormProps<T>) {
     return (

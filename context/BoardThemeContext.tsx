@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BoardTheme, BoardStyle } from '@/components/board/Board';
+import { BoardTheme, BoardStyle } from '@/components/features/chess/board/Board';
 
 interface BoardThemeContextType {
     boardTheme: BoardTheme;

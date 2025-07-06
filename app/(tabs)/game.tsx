@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
-import {StyleSheet, View, Text, Dimensions, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import GameControls from "@/components/game/GameControls";
-import PlayerInfo from "@/components/board/PlayerInfo";
-import Board from "@/components/board/Board";
-import BoardSettings from "@/components/board/BoardSettings";
-// import MoveList from "@/components/game/MoveList";
-import GameTimer from "@/components/game/GameTimer";
-import CapturedPieces from "@/components/game/CapturedPieces";
-import GameModeSelector from "@/components/game/GameModeSelector";
-import { useBoardTheme } from "@/context/BoardThemeContext";
-import ComputerThinkingIndicator from "@/components/game/ComputerThinkingIndicator";
-import {useGame, GameMode} from "@/context/GameContext";
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Ionicons} from '@expo/vector-icons';
+import {useRouter} from 'expo-router';
+import {ComputerThinkingIndicator, GameControls, GameModeSelector, GameTimer,} from "@/components/features/chess/game";
+import {Board, BoardSettings, PlayerInfo,} from "@/components/features/chess/board";
+import {useBoardTheme} from "@/context/BoardThemeContext";
+import {GameMode, useGame} from "@/context/GameContext";
 import {useTheme} from "@/context/ThemeContext";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -63,7 +56,6 @@ export default function GameScreen() {
         setShowSetup(true);
         setGameStarted(false);
     };
-    const [showGameMenu, setShowGameMenu] = useState(false);
 
     // TODO: Replace with real player data from game context or props
     const player1 = {

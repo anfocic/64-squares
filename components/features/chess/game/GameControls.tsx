@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity, View, Text, Alert} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import { useTheme } from "@/context/ThemeContext";
 import { useGame } from "@/context/GameContext";
-import MoveControls from "@/components/game/MoveControls";
+import MoveControls from "./MoveControls";
 
 interface GameControlsProps {
     onReturnToSetup?: () => void;
