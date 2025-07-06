@@ -1,27 +1,26 @@
 import React, { useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { LeagueForm } from "@/components/features/auth";
-import { defaultLeagueValues, leagueSchema } from "@/lib/constants/league";
-import { LeagueFormFields } from "@/lib/types/league";
+import { defaultLeagueValues, leagueSchema, type LeagueFormData } from "@/lib/validations/league";
 import { useCreateLeague } from "@/hooks/league/useCreateLeague";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function CreateLeagueScreen() {
     const { theme } = useTheme();
     const { accessToken } = useAuth();
-    const { control, handleSubmit, formState: { isSubmitting } } = useForm<LeagueFormFields>({
+    const { control, handleSubmit, formState: { isSubmitting, errors } } = useForm<LeagueFormData>({
         defaultValues: defaultLeagueValues,
-        resolver: yupResolver(leagueSchema),
+        resolver: zodResolver(leagueSchema),
     });
 
     const { createLeagueAsync, isLoading } = useCreateLeague();
 
-    const onSubmit = useCallback(async (data: LeagueFormFields) => {
+    const onSubmit = useCallback(async (data: LeagueFormData) => {
         try {
             await createLeagueAsync({
                 token: accessToken as string,

@@ -1,12 +1,5 @@
 import { Chess } from 'chess.js';
 
-// Stockfish engine interface
-interface StockfishEngine {
-  postMessage: (message: string) => void;
-  onmessage: ((event: { data: string }) => void) | null;
-  terminate?: () => void;
-}
-
 export enum Difficulty {
   BEGINNER = 'beginner',
   INTERMEDIATE = 'intermediate',
@@ -20,62 +13,10 @@ export interface ComputerPlayerConfig {
 }
 
 export class ComputerPlayer {
-  private engine: StockfishEngine | null = null;
-  private isEngineReady = false;
-  private pendingMoves: Array<{ resolve: (move: string) => void; reject: (error: Error) => void }> = [];
+  private isEngineReady = true; // Simple AI is always ready
 
   constructor(private config: ComputerPlayerConfig = { difficulty: Difficulty.INTERMEDIATE }) {
-    this.initializeEngine();
-  }
-
-  private async initializeEngine(): Promise<void> {
-    try {
-      console.log('Attempting to load Stockfish...');
-      // For now, use simple AI until we can properly load Stockfish
-      // TODO: Implement proper Stockfish loading
-      this.isEngineReady = true;
-      console.log('Computer player ready (using simple AI)');
-    } catch (error) {
-      console.error('Failed to initialize Stockfish engine:', error);
-      // Fallback to simple AI if Stockfish fails
-      this.isEngineReady = true;
-    }
-  }
-
-  private handleEngineMessage(event: { data: string }): void {
-    const message = event.data;
-    
-    if (message.includes('uciok')) {
-      this.sendCommand('isready');
-    } else if (message.includes('readyok')) {
-      this.isEngineReady = true;
-      this.processPendingMoves();
-    } else if (message.startsWith('bestmove')) {
-      const move = message.split(' ')[1];
-      this.resolvePendingMove(move);
-    }
-  }
-
-  private sendCommand(command: string): void {
-    if (this.engine) {
-      this.engine.postMessage(command);
-    }
-  }
-
-  private processPendingMoves(): void {
-    // Process any moves that were requested before engine was ready
-    if (this.pendingMoves.length > 0) {
-      const { resolve } = this.pendingMoves.shift()!;
-      // For now, just resolve with a placeholder
-      resolve('e2e4');
-    }
-  }
-
-  private resolvePendingMove(move: string): void {
-    if (this.pendingMoves.length > 0) {
-      const { resolve } = this.pendingMoves.shift()!;
-      resolve(move);
-    }
+    console.log('Computer player ready (using simple AI)');
   }
 
   private getDifficultySettings(): { depth: number; time: number } {
@@ -95,13 +36,6 @@ export class ComputerPlayer {
 
   public async getBestMove(fen: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      if (!this.isEngineReady) {
-        this.pendingMoves.push({ resolve, reject });
-        return;
-      }
-
-      // For now, always use simple AI
-      // TODO: Implement proper Stockfish integration
       try {
         const move = this.getSimpleAIMove(fen);
 
@@ -161,12 +95,8 @@ export class ComputerPlayer {
   }
 
   public terminate(): void {
-    if (this.engine && this.engine.terminate) {
-      this.engine.terminate();
-    }
-    this.engine = null;
+    // Simple AI doesn't need cleanup
     this.isEngineReady = false;
-    this.pendingMoves = [];
   }
 }
 

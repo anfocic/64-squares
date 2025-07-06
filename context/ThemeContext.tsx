@@ -6,6 +6,7 @@ export interface Theme {
   background: string;
   surface: string;
   card: string;
+  cardBackground: string;
   
   // Text colors
   text: string;
@@ -45,6 +46,7 @@ export const lightTheme: Theme = {
   background: '#ffffff',
   surface: '#f8f9fa',
   card: '#ffffff',
+  cardBackground: '#ffffff',
   
   // Text colors
   text: '#1a1a1a',
@@ -84,6 +86,7 @@ export const darkTheme: Theme = {
   background: '#121212',
   surface: '#1e1e1e',
   card: '#2d2d2d',
+  cardBackground: '#3a3a3a',
   
   // Text colors
   text: '#ffffff',

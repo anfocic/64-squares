@@ -10,6 +10,8 @@ interface CustomChessBoardProps {
     size: number;
     boardTheme: BoardTheme;
     boardStyle: BoardStyle;
+    lastMove?: { from: string; to: string } | null;
+    checkSquare?: string | null;
 }
 
 // Unicode chess pieces
@@ -28,6 +30,8 @@ export default function CustomChessBoard({
     size,
     boardTheme,
     boardStyle,
+    lastMove,
+    checkSquare,
 }: CustomChessBoardProps) {
     const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
     const [possibleMoves, setPossibleMoves] = useState<string[]>([]);
@@ -59,8 +63,8 @@ export default function CustomChessBoard({
                 const piece = board[rank][file];
                 if (piece && piece.color === (isWhite ? 'w' : 'b')) {
                     setSelectedSquare(square);
-                    const moves = game.moves({ square, verbose: true });
-                    setPossibleMoves(moves.map(move => move.to));
+                    const moves = game.moves({ square: square as any, verbose: true });
+                    setPossibleMoves(moves.map((move: any) => move.to));
                 }
             }
         } else {
@@ -68,8 +72,8 @@ export default function CustomChessBoard({
             const piece = board[rank][file];
             if (piece && piece.color === (isWhite ? 'w' : 'b')) {
                 setSelectedSquare(square);
-                const moves = game.moves({ square, verbose: true });
-                setPossibleMoves(moves.map(move => move.to));
+                const moves = game.moves({ square: square as any, verbose: true });
+                setPossibleMoves(moves.map((move: any) => move.to));
             }
         }
     };
@@ -79,11 +83,17 @@ export default function CustomChessBoard({
         const piece = board[rank][file];
         const isSelected = selectedSquare === square;
         const isPossibleMove = possibleMoves.includes(square);
-        
+        const isLastMove = lastMove && (lastMove.from === square || lastMove.to === square);
+        const isCheck = checkSquare === square;
+
         let backgroundColor = getSquareColor(file, rank);
-        
-        if (isSelected) {
+
+        if (isCheck) {
+            backgroundColor = boardTheme.checkSquare;
+        } else if (isSelected) {
             backgroundColor = boardTheme.selectedSquare;
+        } else if (isLastMove && boardStyle.showLastMove) {
+            backgroundColor = boardTheme.lastMoveSquare;
         } else if (isPossibleMove) {
             backgroundColor = boardTheme.highlightSquare + '60';
         }

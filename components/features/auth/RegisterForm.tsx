@@ -348,3 +348,5 @@ export function RegisterForm({ onRegister, loading, error }: Props) {
         </View>
     );
 }
+
+export default RegisterForm;

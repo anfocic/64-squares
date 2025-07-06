@@ -21,24 +21,30 @@ Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and W
 
 ## 🚧 Development Status
 
-**Current Phase:** Core Architecture & Game Logic
+**Current Phase:** Enhanced Forms & Validation System
 **Version:** 1.0.0-alpha
 **Last Updated:** January 2025
 
 ### ✅ Completed Features
 - [x] Cross-platform chess board (iOS, Android, Web)
 - [x] Chess game logic with Chess.js integration
-- [x] User authentication system
+- [x] Enhanced authentication system with comprehensive validation
+- [x] League management with advanced tournament settings
 - [x] Game state management with React Context
-- [x] Basic UI components and forms
+- [x] Type-safe form validation using Zod
+- [x] React Hook Form integration across all forms
+- [x] Custom UI components with validation support
 - [x] Move validation and game status tracking
+- [x] 12+ board themes with custom implementation
+- [x] Computer opponents with difficulty levels
+- [x] Responsive design for all platforms
 
 ### 🚧 In Progress
 - [ ] Real-time multiplayer functionality
-- [ ] League and tournament system
 - [ ] Game persistence and history
 - [ ] Player profiles and ratings
 - [ ] Push notifications
+- [ ] Advanced tournament features (Swiss pairing, brackets)
 
 ### 📋 Planned Features
 - [ ] Online matchmaking
@@ -52,11 +58,12 @@ Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and W
 - **Framework:** React Native with Expo
 - **Language:** TypeScript
 - **Chess Engine:** Chess.js + Custom Board Implementation
-- **Computer Player:** Stockfish (planned) + Simple AI (current)
+- **Computer Player:** Simple AI (with difficulty levels)
 - **State Management:** React Context + React Query
 - **UI Components:** React Native + Custom Components
 - **Board Theming:** Custom implementation with 12+ themes
-- **Forms:** React Hook Form + Yup validation
+- **Forms:** React Hook Form + Zod validation
+- **Validation:** Comprehensive Zod schemas for type safety
 - **Navigation:** Expo Router
 - **Platforms:** iOS, Android, Web
 
@@ -122,6 +129,7 @@ Built with React Native and Expo, 64 Squares brings chess to iOS, Android, and W
 ├── lib/                   # Utilities and types
 │   ├── game/              # Chess game logic
 │   ├── types/             # TypeScript definitions
+│   ├── validations/       # Zod validation schemas
 │   └── utils/             # Helper functions
 └── services/              # API and external services
 ```
@@ -148,10 +156,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🎯 Roadmap
 
-### Phase 1: Core Game (Current)
+### Phase 1: Core Game & Validation (Current)
 - ✅ Basic chess gameplay
-- 🚧 User authentication
-- 🚧 Game state management
+- ✅ Enhanced user authentication with validation
+- ✅ Game state management
+- ✅ Comprehensive form validation system
+- ✅ League creation and management
 
 ### Phase 2: Multiplayer
 - Real-time game synchronization

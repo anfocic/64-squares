@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Platform, Text } from 'react-native';
-import { Chessboard as WebChessBoard } from 'react-chessboard';
+import { View, Text } from 'react-native';
 import { useTheme } from '@/context/ThemeContext';
 import CustomChessBoard from './CustomChessBoard';
 
@@ -72,88 +71,7 @@ const Board: React.FC<ChessBoardWrapperProps> = ({
     const finalBoardTheme = { ...defaultBoardTheme, ...boardTheme };
     const finalBoardStyle = { ...defaultBoardStyle, ...boardStyle };
 
-    if (Platform.OS === 'web') {
-        // Create custom square styles for web
-        const customSquareStyles: { [square: string]: React.CSSProperties } = {};
-
-        // Highlight last move
-        if (finalBoardStyle.showLastMove && lastMove) {
-            customSquareStyles[lastMove.from] = {
-                backgroundColor: finalBoardTheme.lastMoveSquare,
-            };
-            customSquareStyles[lastMove.to] = {
-                backgroundColor: finalBoardTheme.lastMoveSquare,
-            };
-        }
-
-        // Highlight check square
-        if (checkSquare) {
-            customSquareStyles[checkSquare] = {
-                backgroundColor: finalBoardTheme.checkSquare,
-            };
-        }
-
-        // Highlight selected square
-        if (selectedSquare) {
-            customSquareStyles[selectedSquare] = {
-                backgroundColor: finalBoardTheme.selectedSquare,
-            };
-        }
-
-        // Show possible moves
-        if (finalBoardStyle.showPossibleMoves) {
-            possibleMoves.forEach(square => {
-                customSquareStyles[square] = {
-                    backgroundColor: finalBoardTheme.highlightSquare + '40',
-                    border: `2px solid ${finalBoardTheme.highlightSquare}`,
-                };
-            });
-        }
-
-        return (
-            <div style={{
-                width: size,
-                borderRadius: finalBoardStyle.borderRadius,
-                overflow: 'hidden',
-                boxShadow: finalBoardStyle.shadowEnabled
-                    ? `0 4px 12px ${theme.shadow || 'rgba(0,0,0,0.15)'}`
-                    : 'none',
-            }}>
-                <WebChessBoard
-                    position={fen}
-                    boardWidth={size}
-                    onPieceDrop={(sourceSquare, targetSquare) => {
-                        return onMove(sourceSquare, targetSquare);
-                    }}
-                    boardOrientation={isWhite ? 'white' : 'black'}
-                    arePiecesDraggable={true}
-                    customSquareStyles={customSquareStyles}
-                    customLightSquareStyle={{ backgroundColor: finalBoardTheme.lightSquare }}
-                    customDarkSquareStyle={{ backgroundColor: finalBoardTheme.darkSquare }}
-                    showBoardNotation={finalBoardStyle.showCoordinates}
-                    animationDuration={finalBoardStyle.animationDuration}
-                />
-            </div>
-        );
-    }
-
-    // React Native implementation
-    const containerStyle = {
-        width: size,
-        height: size,
-        borderRadius: finalBoardStyle.borderRadius,
-        overflow: 'hidden' as const,
-        shadowColor: theme.shadow || '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: finalBoardStyle.shadowEnabled ? 0.3 : 0,
-        shadowRadius: 8,
-        elevation: finalBoardStyle.shadowEnabled ? 8 : 0,
-        // Add a border to show theming is working
-        borderWidth: 3,
-        borderColor: finalBoardTheme.lightSquare,
-    };
-
-    // Use custom board for React Native to support theming
+    // Use custom board for all platforms for consistency
     return (
         <View style={{
             shadowColor: theme.shadow || '#000',
@@ -169,6 +87,8 @@ const Board: React.FC<ChessBoardWrapperProps> = ({
                 size={size}
                 boardTheme={finalBoardTheme}
                 boardStyle={finalBoardStyle}
+                lastMove={lastMove}
+                checkSquare={checkSquare}
             />
         </View>
     );

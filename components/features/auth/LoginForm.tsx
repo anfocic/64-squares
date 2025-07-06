@@ -277,3 +277,5 @@ export function LoginForm({ onLogin, loading, error }: Props) {
 
     );
 }
+
+export default LoginForm;

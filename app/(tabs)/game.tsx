@@ -4,7 +4,7 @@ import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {useRouter} from 'expo-router';
-import {ComputerThinkingIndicator, GameControls, GameModeSelector, GameTimer,} from "@/components/features/chess/game";
+import {ComputerThinkingIndicator, GameModeSelector, GameTimer,} from "@/components/features/chess/game";
 import {Board, BoardSettings, PlayerInfo,} from "@/components/features/chess/board";
 import {useBoardTheme} from "@/context/BoardThemeContext";
 import {GameMode, useGame} from "@/context/GameContext";
@@ -49,12 +49,6 @@ export default function GameScreen() {
     const handleStartGame = () => {
         setShowSetup(false);
         setGameStarted(true);
-    };
-
-    // Handle showing setup again
-    const handleShowSetup = () => {
-        setShowSetup(true);
-        setGameStarted(false);
     };
 
     // TODO: Replace with real player data from game context or props
@@ -123,28 +117,7 @@ export default function GameScreen() {
             paddingHorizontal: 16,
             paddingTop: 8,
         },
-        setupButtonSection: {
-            paddingHorizontal: 16,
-            paddingTop: 8,
-            paddingBottom: 8,
-        },
-        setupButton: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: theme.surface,
-            borderRadius: 8,
-            paddingVertical: 12,
-            paddingHorizontal: 16,
-            borderWidth: 1,
-            borderColor: theme.primary + '30',
-        },
-        setupButtonText: {
-            color: theme.primary,
-            fontSize: 14,
-            fontWeight: '600',
-            marginLeft: 6,
-        },
+
         gameArea: {
             flex: 1,
             justifyContent: 'center',
@@ -209,9 +182,23 @@ export default function GameScreen() {
             width: '100%',
             marginTop: 16,
         },
-        controlsSection: {
+        actionBar: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
             paddingHorizontal: 16,
-            paddingVertical: 8,
+            paddingVertical: 12,
+            backgroundColor: theme.surface,
+            borderTopWidth: 1,
+            borderTopColor: theme.border,
+        },
+        actionButton: {
+            padding: 12,
+            borderRadius: 8,
+            backgroundColor: theme.cardBackground,
+            minWidth: 48,
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         moveListOverlay: {
             position: 'absolute',
@@ -262,21 +249,8 @@ export default function GameScreen() {
 
                 <Text style={styles.headerTitle}>64 Squares</Text>
 
-                <View style={{ flexDirection: 'row', gap: 8 }}>
-                    <TouchableOpacity
-                        style={styles.menuButton}
-                        onPress={() => setShowBoardSettings(true)}
-                    >
-                        <Ionicons name="color-palette" size={24} color={theme.text} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.menuButton}
-                        onPress={() => setShowMoveList(!showMoveList)}
-                    >
-                        <Ionicons name="list" size={24} color={theme.text} />
-                    </TouchableOpacity>
-                </View>
+                {/* Empty view to maintain center alignment */}
+                <View style={{ width: 40 }} />
             </View>
 
             {/* Game Mode Selector */}
@@ -286,19 +260,6 @@ export default function GameScreen() {
                         onStartGame={handleStartGame}
                         isVisible={showSetup}
                     />
-                </View>
-            )}
-
-            {/* Setup Button (when game is started) */}
-            {gameStarted && !showSetup && (
-                <View style={styles.setupButtonSection}>
-                    <TouchableOpacity
-                        style={styles.setupButton}
-                        onPress={handleShowSetup}
-                    >
-                        <Ionicons name="settings-outline" size={20} color={theme.primary} />
-                        <Text style={styles.setupButtonText}>Game Setup</Text>
-                    </TouchableOpacity>
                 </View>
             )}
 
@@ -381,10 +342,50 @@ export default function GameScreen() {
             {/* Computer Thinking Indicator - Only show when game is started */}
             {gameStarted && !showSetup && <ComputerThinkingIndicator />}
 
-            {/* Game Controls - Only show when game is started */}
+            {/* Action Bar - Only show when game is started */}
             {gameStarted && !showSetup && (
-                <View style={styles.controlsSection}>
-                    <GameControls onReturnToSetup={handleShowSetup} />
+                <View style={styles.actionBar}>
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => setShowMoveList(!showMoveList)}
+                    >
+                        <Ionicons name="list" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => {/* TODO: Add chat functionality */}}
+                    >
+                        <Ionicons name="chatbubble-outline" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => {/* TODO: Add analysis functionality */}}
+                    >
+                        <Ionicons name="trending-up" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => {/* TODO: Add previous move functionality */}}
+                    >
+                        <Ionicons name="chevron-back" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => {/* TODO: Add next move functionality */}}
+                    >
+                        <Ionicons name="chevron-forward" size={24} color={theme.text} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.actionButton}
+                        onPress={() => setShowBoardSettings(true)}
+                    >
+                        <Ionicons name="color-palette" size={24} color={theme.text} />
+                    </TouchableOpacity>
                 </View>
             )}
 

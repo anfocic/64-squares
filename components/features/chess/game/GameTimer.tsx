@@ -17,7 +17,7 @@ const GameTimer: React.FC<GameTimerProps> = ({
     const [timeRemaining, setTimeRemaining] = useState(initialTime);
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: ReturnType<typeof setInterval>;
 
         if (isActive && timeRemaining > 0) {
             interval = setInterval(() => {
